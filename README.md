@@ -10,3 +10,5 @@ The official website and smart dining system for **Zaitoon Family Restaurant**, 
 - **Waiter app:** table map, guest calls, kitchen messages, take orders, settle bills
 - **Admin panel:** orders, menu, tables and QR codes, waiters, reservations, guest CRM, offers, feedback
 - **Notifications** for guests, kitchen and waiters
+### Live Project
+- https://zaitoon-restaurent-website.vercel.app/
