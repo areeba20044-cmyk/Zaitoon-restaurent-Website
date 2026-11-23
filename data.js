@@ -1,0 +1,187 @@
+/* Zaitoon Smart Dining — demo data
+   Menu and prices: from zaitoonfamilyrestaurant.com (via the SaleForgers proposal site).
+   Orders, guests and ratings created in the demo are sample data. */
+const RESTAURANT={name:"Zaitoon Family Restaurant",tagline:"Thai · Chinese · Continental · Desi",address:"Zara Plaza, Basti Bareer, near Shareef Hospital, Main G.T. Road, Wah Cantt",phone:"0321 5000193",phone2:"051 4925008",hours:"Open daily, 11:30 AM to 12:00 midnight"};
+
+const CATS=[
+ ["soups","Soups","Served hot and thick, made on rich chicken stock."],
+ ["starters","Starters","Crispy favourites to open the table."],
+ ["sandwiches","Steak Sandwiches","Grilled chicken, cheddar and the chef's own sauce."],
+ ["burgers","Burgers","Smashed beef and crispy chicken, grilled to order."],
+ ["thai-chinese","Thai & Chinese","All platter dishes are served with egg fried rice."],
+ ["continental","Pasta & Continental","Creamy, cheesy and plated to share."],
+ ["steaks","Steaks","Grilled to perfection with your choice of sauce."],
+ ["broast","Broast","All chicken broast is served with fries."],
+ ["karahi","Karahi & Handi","Cooked to order. Ask for desi ghee or butter."],
+ ["bbq","Bar B Q","Marinated with the chef's secret spices, with mint raita and green imli sauce."],
+ ["naan","Naan, Roti & Sides","Fresh from the tandoor."],
+ ["desserts","Desserts","Ice cream creations to finish."],
+ ["shakes","Shakes & Smoothies",""],
+ ["mocktails","Mocktails & Margaritas",""],
+ ["juices","Fresh Juices","Seasonal fruit, pressed fresh."],
+ ["tea","Tea & Coffee",""],
+ ["drinks","Soft Drinks & Water",""]
+];
+
+const EX_BURGER=[["Extra chicken patty",450],["Extra beef patty",550],["Extra cheese slice",150],["Extra topping",150],["Extra sauce",75]];
+const EX_SAND=[["Extra cheese",175],["Extra topping",175],["Extra sauce",75]];
+const EX_KAR=[["Cook in desi ghee (per kg)",450],["Cook in butter (per kg)",450]];
+const SPICE={n:"Spice level",o:["Mild","Medium","Spicy"]};
+const MEAT={n:"Meat",o:["Chicken","Mutton"]};
+const V_TC=[["Chicken",1450],["Beef",1950],["Prawn",2350]];
+const STEAK_CH=[{n:"Sauce",o:["Mushroom","Black Pepper","Mexican","Tarragon","Moroccan"]},{n:"Side",o:["Jacket potato","Mashed potato"]}];
+const KAR=(full,half,o={})=>Object.assign({v:[["Half",half],["Full",full]],c:[SPICE],e:EX_KAR},o);
+const HANDI=o=>Object.assign({c:[MEAT,SPICE],e:EX_KAR},o||{});
+
+/* [category, name, price, description, options]
+   options: p popular · s spicy · img photo · u unit · v variants · c choices · e extras */
+const MENU_RAW=[
+ ["soups","House Special Soup",1250,"Fresh prawns with chicken, button mushrooms, black mushrooms and egg, cooked in rich chicken stock."],
+ ["soups","19 B Special Soup",1200,"Our famous 19 B soup, a delicious combination of chicken and prawns.",{p:1}],
+ ["soups","Special Szechuan Soup",1200,"Hot and fiery Szechuan-style soup.",{img:"szechuan-soup",s:1}],
+ ["soups","Chicken Corn Soup",1100,"The family favourite.",{img:"corn-soup"}],
+ ["soups","Hot & Sour Soup",1100,"",{s:1}],
+ ["soups","Chicken & Vegetable Soup",950,"Light, clear broth."],
+ ["soups","Fish Crackers",600,""],
+ ["starters","House Special Silk Prawns",2400,"Large fresh prawns, fried and glazed with our smooth house-special mayo sauce, then coated with crispy shredded potato."],
+ ["starters","Dynamite Prawns",2100,"Crispy prawns coated in our signature spicy mayo sauce, served with fresh iceberg lettuce.",{s:1}],
+ ["starters","Jumbo Tail Prawns",2600,"Jumbo fresh prawns, deep-fried with their tails on and served with the chef's special sauce.",{u:"4 pcs"}],
+ ["starters","Special Fried Prawns",2400,"Crispy fresh prawns, deep-fried to perfection and served with our house-special sauce.",{p:1}],
+ ["starters","Chicken Spring Roll",750,"Tender boneless chicken and vegetables wrapped in thin pastry and deep-fried."],
+ ["starters","Crispy Chicken Wings",1150,"Deep-fried and served hot with your choice of sauce.",{c:[{n:"Sauce",o:["BBQ","Hot Chilli","Mango Habanero"]}]}],
+ ["starters","Finger Fish N' Chips",2400,"Deep-fried finger fish served with tartar sauce and fries.",{u:"8 pcs"}],
+ ["starters","Chicken Drumsticks",1800,"All-time favourite deep-fried chicken drumsticks, served hot with French fries.",{u:"6 pcs"}],
+ ["starters","Loaded Fries",950,"Crispy fries topped with melted cheddar, chicken chilli, pickled peppers and garlic mayo."],
+ ["starters","French Fries",600,""],
+ ["sandwiches","New York Grilled Sandwich",950,"Tender grilled chicken topped with cheddar cheese and our homemade chef's special sauce.",{e:EX_SAND}],
+ ["sandwiches","Smoked California Grilled Chicken Sandwich",950,"Boneless chicken breast from the grill, chef's special sauce and cucumber pickles.",{e:EX_SAND}],
+ ["sandwiches","Grilled Chicken Club Sandwich",950,"Tender grilled chicken and fresh ingredients for a satisfying bite every time.",{e:EX_SAND}],
+ ["burgers","Smokehouse Beef Burger",750,"A juicy smashed beef patty grilled to perfection and topped with BBQ sauce, cheddar cheese, pickles and fresh lettuce.",{img:"smokehouse-burger",p:1,e:EX_BURGER}],
+ ["burgers","Smash Beef Cheese Burger",750,"A premium smashed beef patty topped with cheddar cheese, pickles and fresh lettuce.",{img:"smash-burger",e:EX_BURGER}],
+ ["burgers","Mushroom Beef Burger",750,"Smashed beef patty with sautéed mushrooms, cheddar cheese, jalapeños and fresh lettuce.",{e:EX_BURGER}],
+ ["burgers","Pappu Burger",450,"A delicious and authentic Lahori street-style anda shami burger.",{e:EX_BURGER}],
+ ["burgers","Kings Choice Burger",750,"A large grilled chicken burger with lettuce, pickles, ketchup, cheddar and our house-special sauce.",{e:EX_BURGER}],
+ ["burgers","Zinger Cheese Burger",650,"A crispy chicken fillet topped with cheese, pickles and garlic mayo. An all-time favourite.",{p:1,e:EX_BURGER}],
+ ["burgers","African Lion Burger",650,"A spicy deep-fried chicken burger with cheddar, pickles and garlic mayo.",{s:1,e:EX_BURGER}],
+ ["thai-chinese","Szechuan",1450,"A famous, mouth-watering spicy dish with julienne-cut vegetables, bell peppers and green and red chillies in Szechuan sauce.",{img:"szechuan",s:1,p:1,v:V_TC}],
+ ["thai-chinese","Cashew Nut",1450,"A popular Thai dish with roasted cashew nuts and fresh vegetables cooked in dark soy and fish sauce.",{img:"cashew-nut",v:V_TC}],
+ ["thai-chinese","Dry Chilli",1450,"A mouth-watering Thai dish with green chillies, cooked in fish sauce and oyster sauce.",{img:"dry-chilli",s:1,v:V_TC}],
+ ["thai-chinese","Kung Pao",1450,"Mixed vegetables in a mildly spicy, tangy sauce.",{img:"kung-pao",v:V_TC}],
+ ["thai-chinese","Manchurian",1450,"Cooked in a spicy tomato sauce with garlic and chilli, served on a sizzling platter.",{img:"manchurian",v:V_TC}],
+ ["thai-chinese","Oyster Sauce",1450,"Cooked with selected vegetables in oyster sauce.",{img:"oyster-sauce",v:V_TC}],
+ ["thai-chinese","Black Pepper",1450,"Julienne-cut vegetables in a crushed black pepper sauce.",{v:V_TC}],
+ ["thai-chinese","Garlic",1450,"Cooked with fresh chopped garlic and soy sauce.",{v:V_TC}],
+ ["thai-chinese","Dragon",1450,"Bell peppers, onions, carrots and red chillies in dragon and oyster sauce.",{s:1,v:V_TC}],
+ ["thai-chinese","Mongolian",1450,"Bell peppers, onions and tomatoes cooked in oyster sauce and HP sauce.",{v:V_TC}],
+ ["thai-chinese","Chicken Chow Mein",2550,"Homemade noodles stir-fried with chicken and fresh vegetables.",{img:"chow-mein"}],
+ ["thai-chinese","Chicken Shashlik",2550,"Asian-style shashlik with fragrant steamed rice, tender chicken and colourful vegetables in a sweet and tangy sauce.",{u:"Serves 2",img:"chicken-shashlik"}],
+ ["continental","Stuffed Chicken and Cheese",1950,"Chicken breast stuffed with olives, mushrooms, spinach and cheese, with sautéed vegetables and a creamy cheese sauce.",{img:"stuffed-chicken",p:1}],
+ ["continental","Swiss Polo Chicken",1950,"Tender stuffed chicken filled with jalapeños, olives and mushrooms, topped with creamy cheese sauce.",{img:"swiss-polo"}],
+ ["continental","Fettuccine Alfredo",1650,"Flat pasta in a smooth, creamy sauce with butter, Parmesan and mozzarella.",{v:[["Chicken",1650],["Prawn",2350]]}],
+ ["continental","Spicy Chicken Pasta",1550,"Flat noodles cooked in a spicy chilli sauce with chicken, bell peppers and fish sauce.",{img:"spicy-pasta",s:1}],
+ ["steaks","Beef Steak",2450,"Tender beef fillet, grilled to perfection, with stir-fried vegetables and your choice of side and sauce.",{img:"beef-steak",p:1,c:STEAK_CH}],
+ ["steaks","Chicken Steak",1750,"Boneless chicken breast from the grill, with stir-fried vegetables and your choice of side and sauce.",{img:"chicken-steak",c:STEAK_CH}],
+ ["broast","Quarter Chicken Broast",1400,"Served with fries."],
+ ["broast","Half Chicken Broast",1200,"Served with fries.",{img:"broast"}],
+ ["broast","Full Broast",1200,"Served with fries.",{img:"full-broast"}],
+ ["karahi","Karahi Chicken",1300,"Cooked with aromatic herbs and our chef's secret spices. Choose your spice level.",KAR(2200,1300,{img:"karahi-chicken",p:1})],
+ ["karahi","Desi Karahi Chicken",2300,"Desi chicken, slow-cooked the traditional way.",KAR(4200,2300,{img:"desi-karahi"})],
+ ["karahi","Chicken White Karahi",1400,"Creamy white karahi with green chillies and black pepper.",KAR(2350,1400)],
+ ["karahi","Mutton Karahi",3000,"Tender mutton in a rich tomato and ginger masala.",KAR(5500,3000,{img:"mutton-karahi"})],
+ ["karahi","Mutton White Karahi",3100,"",KAR(5650,3100)],
+ ["karahi","Special Boneless Chicken Karahi Qeema",3500,"Hand-made qeema.",{c:[SPICE],e:EX_KAR}],
+ ["karahi","Special Boneless Mutton Karahi Qeema",7500,"Hand-made qeema.",{c:[SPICE],e:EX_KAR}],
+ ["karahi","Amritsaria Handi",2350,"Boneless handi cooked in rich Amritsari spices and served in an authentic handi.",HANDI({img:"handi"})],
+ ["karahi","Hyderabadi Handi",2350,"Aromatic spices and succulent meat in a rich Hyderabadi-style handi.",HANDI()],
+ ["karahi","Achari Handi",2350,"Spicy, tangy pickle flavours infused into juicy meat.",HANDI({s:1})],
+ ["karahi","Rajasthani Handi",2350,"Slow-cooked with aromatic spices, butter and a touch of cream.",HANDI()],
+ ["karahi","Madrasi Handi",2350,"South Indian-style handi with coconut milk and aromatic spices.",HANDI()],
+ ["bbq","BBQ Mix Platter (Serves 2)",3800,"",{p:1}],
+ ["bbq","BBQ Mix Platter (Serves 4)",7500,""],
+ ["bbq","Chicken Tikka Boti",1200,"",{u:"12 pcs",img:"tikka-boti"}],
+ ["bbq","Chicken Malai Boti",1250,"",{u:"12 pcs"}],
+ ["bbq","Chicken Reshmi Kabab",1250,"",{u:"4 pcs"}],
+ ["bbq","Chicken Seekh Kabab",1250,"",{u:"4 pcs"}],
+ ["bbq","Chicken Cheese Kabab",1550,"",{u:"4 pcs"}],
+ ["bbq","Chicken Hari Bhari Kabab",1250,"",{u:"4 pcs"}],
+ ["bbq","Chicken Piece",650,"Leg or breast.",{c:[{n:"Piece",o:["Leg","Breast"]}]}],
+ ["bbq","Beef Kabab",1400,"",{u:"4 pcs"}],
+ ["bbq","Mutton Seekh Kabab",1800,"",{u:"4 pcs"}],
+ ["bbq","Mutton Boti Tikka",2850,"",{u:"12 pcs"}],
+ ["bbq","Mutton Namkeen Tikka",2850,"",{u:"12 pcs"}],
+ ["bbq","Mutton Chops",1800,"",{u:"4 pcs"}],
+ ["bbq","Fish Tikka",1800,"",{u:"12 pcs"}],
+ ["bbq","Grilled Fish",1750,"Seasonal.",{u:"per kg"}],
+ ["naan","Roti",100,"",{u:"per person"}],
+ ["naan","Khamiri Roti",50,""],
+ ["naan","Plain Naan",75,""],
+ ["naan","Roghani Naan",100,""],
+ ["naan","Kalonji Naan",100,""],
+ ["naan","Garlic Naan",100,""],
+ ["naan","Afghani Naan",300,""],
+ ["naan","Cheese Naan",450,""],
+ ["naan","Chicken Qeema Naan",550,""],
+ ["naan","Beef Qeema Naan",650,""],
+ ["naan","Mutton Qeema Naan",1050,""],
+ ["naan","Salad Bar",550,"",{u:"per plate"}],
+ ["desserts","Cold Stone",150,""],
+ ["desserts","Feast of Chocolate",250,""],
+ ["desserts","Smooth Sensation",350,""],
+ ["desserts","Sweet Memories",350,""],
+ ["desserts","Strawberry Kingdom",350,""],
+ ["desserts","Awesome Treat",450,""],
+ ["shakes","Bounty Choco Shake",500,""],
+ ["shakes","Peanut Butter Shake",500,""],
+ ["shakes","Chocolate Shake",500,""],
+ ["shakes","Banana Shake",500,""],
+ ["shakes","Vanilla Shake",500,""],
+ ["shakes","Oreo Shake",500,""],
+ ["shakes","Caramel Shake",500,""],
+ ["shakes","Kit Kat Shake",600,""],
+ ["shakes","Mango Smoothie",500,""],
+ ["shakes","Strawberry Smoothie",500,""],
+ ["mocktails","Mint Margarita",350,"",{img:"mint-margarita",p:1}],
+ ["mocktails","Pina Colada",550,""],
+ ["mocktails","White Margarita",400,""],
+ ["mocktails","Mango Margarita",400,""],
+ ["mocktails","Orange Margarita",400,"",{img:"orange-margarita"}],
+ ["mocktails","Peach Margarita",400,""],
+ ["mocktails","Pomegranate Margarita",650,""],
+ ["juices","Orange Juice",400,"",{img:"orange-juice"}],
+ ["juices","Apple Juice",400,""],
+ ["juices","Peach Juice",400,""],
+ ["juices","Falsa Juice",400,""],
+ ["juices","Pomegranate Juice",500,""],
+ ["juices","Blueberry Juice",500,""],
+ ["tea","Coffee",195,""],
+ ["tea","Mix Tea",195,""],
+ ["tea","Black Tea",175,""],
+ ["tea","Green Tea",175,""],
+ ["tea","Ice Tea",175,""],
+ ["tea","Lime Tea",175,""],
+ ["drinks","Coke",275,"",{u:"can"}],
+ ["drinks","Diet Coke",275,"",{u:"can"}],
+ ["drinks","Sprite",275,"",{u:"can"}],
+ ["drinks","Fanta",275,"",{u:"can"}],
+ ["drinks","Mineral Water (Large)",275,""],
+ ["drinks","Mineral Water (Small)",125,""]
+];
+const slug=s=>s.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
+const MENU=MENU_RAW.map(([cat,name,price,desc,o])=>{o=o||{};return{id:cat+"-"+slug(name),cat,name,price,desc,popular:!!o.p,spicy:!!o.s,img:o.img?"img/dishes/"+o.img+".jpg":"",unit:o.u||"",variants:(o.v||[]).map(([n,p])=>({n,p})),choices:o.c||[],extras:(o.e||[]).map(([n,p])=>({n,p}))}});
+
+const TABLES=Array.from({length:16},(_,i)=>({n:i+1,zone:i<8?"Family Hall":"Rooftop",code:"z"+(i+1).toString(36)+"k"+((i+7)*37).toString(36)}));
+const WAITERS={"Family Hall":"Bilal","Rooftop":"Sana"};
+const STAGES=[["received","Received"],["preparing","Preparing"],["ready","Ready"],["picked_up","On its way"],["served","Served"]];
+const STAFF=[{name:"Manager",role:"Admin panel",pin:"2026"},{name:"Kitchen",role:"Kitchen display",pin:"2026"},{name:"Bilal",role:"Waiter · Family Hall",pin:"2026"},{name:"Sana",role:"Waiter · Rooftop",pin:"2026"}];
+
+const FAQ=[
+ ["What are your opening hours?","We're open every day from 11:30 AM to 12:00 midnight, for lunch, dinner and late evenings on the rooftop."],
+ ["Do I need to book a table?","Walk-ins are always welcome. For weekends, birthdays and larger groups we recommend reserving a table online — choose the Rooftop or the Family Hall."],
+ ["Can I order from my table without waiting?","Yes. Scan the QR code or tap the Zaitoon tag on your table. The menu opens on your phone — no app needed — and your order goes straight to the kitchen. You can follow it live and call your waiter with one tap."],
+ ["Is there free Wi-Fi?","Yes. The guest Wi-Fi name and password appear on your phone as soon as you scan or tap your table."],
+ ["Can you cook my karahi in desi ghee or butter?","Of course. Karahi and handi dishes can be cooked in desi ghee or butter, and you can choose mild, medium or spicy."],
+ ["Do you offer takeaway?","Yes. Order online, pick a collection time and track your order until it's ready at the counter."],
+ ["Do you host birthdays and family events?","We do. The rooftop and Family Hall are perfect for celebrations. Mention the occasion when you reserve, or call us on 0321 5000193 to plan an event."],
+ ["How do Zaitoon Rewards work?","Every visit and order with your phone number is saved to your rewards profile. You earn 1 point for every Rs 100 and unlock special offers as a regular guest."]
+];
+const GALLERY=[["img/hd/rooftop-night.jpg","The rooftop at night"],["img/hd/hall-ceiling.jpg","The Family Hall"],["img/hd/dining-hall.jpg","Evening dining in the hall"],["img/hd/rooftop-day.jpg","Rooftop at sunset"],["img/hd/rooftop-lights.jpg","Under the string lights"],["img/hd/hall-dining.jpg","Dining area & lantern rings"],["img/hd/rooftop-seating.jpg","Rooftop seating with a view"]];
